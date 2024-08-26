@@ -1,0 +1,45 @@
+<div class="container mt-3 min-vh-100">
+  <div class="d-flex justify-content-end mb-3">
+    <button
+      class="btn btn-primary px-1 py-2 rounded m-3 add-book"
+      [routerLink]="'/book/form'"
+    >
+      Lägg till ny bok
+    </button>
+  </div>
+  <table class="table table-bordered table-info">
+    <thead>
+      <tr class="titles">
+        <th class="text-center">ID</th>
+        <th class="text-center">Titel</th>
+        <th class="text-center">Författare</th>
+        <th class="text-center">Publiceringsår</th>
+        <th class="text-center">Handling</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Display the list of books -->
+      <tr *ngFor="let item of books$ | async; trackBy: trackById">
+        <td class="text-center">{{ item.id }}</td>
+        <td class="text-center">{{ item.title }}</td>
+        <td class="text-center">{{ item.author }}</td>
+        <td class="text-center">{{ item.publishYear }}</td>
+        <td class="text-center">
+          <!-- Button to edit the book -->
+          <button class="btn btn-primary btn-sm mx-1 my-1 d-inline d-sm-inline">
+            <i class="fas fa-edit" [routerLink]="['/books/', item.id]"></i>
+          </button>
+
+          <!-- Button to delete the book -->
+          <button class="btn btn-danger btn-sm mx-1 my-1 d-inline d-sm-inline">
+            <i
+              class="fa fa-trash"
+              aria-hidden="true"
+              (click)="delete(item.id)"
+            ></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

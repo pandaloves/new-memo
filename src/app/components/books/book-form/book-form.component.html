@@ -1,0 +1,72 @@
+<form
+  [formGroup]="form"
+  class="position-relative mt-3 min-vh-100"
+  (ngSubmit)="onSubmit()"
+>
+  <div
+    class="border border-light-subtle rounded position-absolute top-4 start-50 translate-middle-x p-6 w-75"
+  >
+    <input
+      formControlName="title"
+      class="form-control form-control-lg m-2 w-full"
+      type="text"
+      placeholder="titel"
+      required
+    />
+
+    <h5
+      *ngIf="form.controls['title'].errors && form.controls['title'].touched"
+      class="h5 text-danger m-1"
+    >
+      Titel krävs.
+    </h5>
+
+    <input
+      formControlName="author"
+      class="form-control form-control-lg m-2 w-full"
+      type="text"
+      placeholder="författare"
+      required
+    />
+
+    <h5
+      *ngIf="form.controls['author'].errors && form.controls['author'].touched"
+      class="h5 text-danger m-1"
+    >
+      Författare krävs.
+    </h5>
+
+    <input
+      formControlName="publishYear"
+      class="form-control form-control-lg m-2 w-full"
+      type="text"
+      placeholder="publiceringsår"
+      aria-label=".form-control-sm example"
+      required
+    />
+
+    <h5
+      *ngIf="
+        form.controls['publishYear'].errors &&
+        form.controls['publishYear'].touched
+      "
+      class="h5 text-danger m-1"
+    >
+      Publiceringsår krävs.
+    </h5>
+
+    <div class="mt-4 d-flex flex-row gap-4 justify-center">
+      <button
+        type="submit"
+        class="link-primary link-opacity-50-hover text-light text-bg-primary py-2 px-4 rounded"
+      >
+        {{ isEdit ? "Redigera bok" : "Lägg till bok" }}
+      </button>
+      <a
+        [routerLink]="'/books'"
+        class="link-danger link-opacity-50-hover text-light text-bg-danger py-2 px-4 rounded"
+        >Avbryt</a
+      >
+    </div>
+  </div>
+</form>

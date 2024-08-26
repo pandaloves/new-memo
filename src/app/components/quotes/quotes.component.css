@@ -1,0 +1,5 @@
+@media screen and (max-width: 600px) {
+  .titles th {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,102 @@
+header {
+  background: #044de0;
+  height: 110px;
+  top: 0;
+  min-width: 100vw;
+}
+
+.theme-container {
+  width: 300px;
+  font-size: 18px;
+}
+
+.username {
+  width: 120px;
+  font-weight: bold;
+}
+
+.toggle-btn {
+  width: 80px;
+  height: 40px;
+  padding: auto 2px;
+  font-size: 15px;
+  border-radius: 5px;
+  background-color: rgb(252, 252, 252);
+  color: rgb(7, 7, 7);
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: rgb(239, 239, 241);
+  cursor: pointer;
+}
+
+.navigation {
+  text-align: right;
+  padding-right: 20px;
+  margin-right: 20px;
+}
+
+.menu ul {
+  padding: 0;
+  margin: 0;
+}
+
+.menu ul li {
+  list-style-type: none;
+  color: white;
+  display: inline-block;
+  font-size: 18px;
+  margin-left: 26px;
+}
+
+.menu ul li:hover {
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  color: rgb(238, 217, 25);
+  transition: 0.4s ease-in-out;
+}
+
+.menu-icon {
+  display: none;
+}
+
+@media screen and (min-width: 128px) and (max-width: 900px) {
+  .username {
+    width: 100px;
+  }
+  .toggle-btn {
+    width: 80px;
+    margin-left: 1px;
+  }
+  .menu {
+    position: absolute;
+    right: -300px;
+    top: 80px;
+    background: #044de0;
+    width: 200px;
+    height: 200px;
+    z-index: 999;
+    padding-top: 30px;
+  }
+
+  .menu ul li {
+    display: block;
+    text-align: left;
+    margin: 5px 0;
+    padding: 10px 0 10px 26px;
+    border-bottom: 1px solid grey;
+  }
+
+  .menu-icon {
+    display: block;
+    font-size: 26px;
+    color: white;
+  }
+
+  .mobile_menu {
+    right: 0;
+    transition: 0.4s ease-in-out;
+  }
+}

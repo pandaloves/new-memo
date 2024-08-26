@@ -1,0 +1,29 @@
+<header class="d-flex align-items-center justify-content-between">
+  <!-- Container for the theme toggle button and user greeting -->
+  <div
+    class="theme-container d-flex flex-row align-items-center justify-content-center"
+  >
+    <p class="username text-white">
+      Hej, <em class="text-yellow-400">{{ username }} </em>!
+    </p>
+    <button class="toggle-btn" (click)="toggleTheme()">
+      {{ darkMode ? "🌞 Ljus" : "🌙 Mörk" }}
+    </button>
+  </div>
+
+  <!-- Container for the menu icon and the navigation menu -->
+  <div class="navigation text-start">
+    <div class="menu-icon">
+      <i class="fa-solid fa-bars" (click)="openMenu()"></i>
+    </div>
+
+    <!-- Navigation menu container -->
+    <div class="menu" [class.mobile_menu]="menuValue">
+      <ul>
+        <li routerLink="../books" (click)="closeMenu()">Mina böcker</li>
+        <li routerLink="../quotes" (click)="closeMenu()">Mina citat</li>
+        <li (click)="logOut(); closeMenu()">Logga ut</li>
+      </ul>
+    </div>
+  </div>
+</header>

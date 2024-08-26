@@ -1,0 +1,163 @@
+<section class="py-3 py-md-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+        <div class="card border border-light-subtle rounded-3 shadow-lg">
+          <div class="card-body p-3 p-md-4 p-xl-5">
+            <h2 class="fs-6 fw-normal text-center text-secondary mb-4">
+              Register <em class="text-primary ml-1 fs-8">MemoApp</em>
+            </h2>
+            <form [formGroup]="signupForm" (ngSubmit)="save()">
+              <div class="row gy-2 overflow-hidden">
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="username"
+                      class="form-control"
+                      name="username"
+                      id="username"
+                      placeholder="Användarnamn"
+                      formControlName="username"
+                    />
+                    <h5
+                      *ngIf="
+                        signupForm.controls['username'].hasError('required') &&
+                        signupForm.controls['username'].touched
+                      "
+                      class="h5 text-danger m-1"
+                    >
+                      Användarnamn krävs.
+                    </h5>
+                    <label for="username" class="form-label"
+                      >Användarnamn</label
+                    >
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      id="email"
+                      placeholder="name@example.com"
+                      formControlName="email"
+                    />
+                    <h5
+                      *ngIf="
+                        signupForm.controls['email'].hasError('required') &&
+                        signupForm.controls['email'].touched
+                      "
+                      class="h5 text-danger m-1"
+                    >
+                      E-post krävs.
+                    </h5>
+                    <h5
+                      *ngIf="
+                        signupForm.controls['email'].hasError('email') &&
+                        !signupForm.controls['email'].hasError('required') &&
+                        signupForm.controls['email'].touched
+                      "
+                      class="h5 text-danger m-1"
+                    >
+                      Ogiltig e-postadress.
+                    </h5>
+                    <label for="email" class="form-label">E-post</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      id="password"
+                      value=""
+                      placeholder="******"
+                      formControlName="password"
+                    />
+                    <h5
+                      *ngIf="
+                        signupForm.controls['password'].hasError('required') &&
+                        signupForm.controls['password'].touched
+                      "
+                      class="h5 text-danger m-1"
+                    >
+                      Lösenord krävs.
+                    </h5>
+                    <ul
+                      class="text-red-400 text-sm col"
+                      *ngIf="passwordFormField?.dirty"
+                    >
+                      <li
+                        [ngClass]="{
+                          'text-primary':
+                            passwordFormField?.value?.match('^(?=.*[A-Z])')
+                        }"
+                      >
+                        Minst en versal;
+                      </li>
+                      <li
+                        [ngClass]="{
+                          'text-primary':
+                            passwordFormField?.value?.match('(?=.*[a-z])')
+                        }"
+                      >
+                        Minst en gemen bokstav;
+                      </li>
+                      <li
+                        [ngClass]="{
+                          'text-primary':
+                            passwordFormField?.value?.match('(.*[0-9].*)')
+                        }"
+                      >
+                        Minst en siffra;
+                      </li>
+                      <li
+                        [ngClass]="{
+                          'text-primary':
+                            passwordFormField?.value?.match('(?=.*[!@#$%^&*])')
+                        }"
+                      >
+                        Minst ett specialtecken.
+                      </li>
+                      <li
+                        [ngClass]="{
+                          'text-primary':
+                            passwordFormField?.value?.match('.{6,}')
+                        }"
+                      >
+                        Minst 6 tecken långt.
+                      </li>
+                    </ul>
+                    <label for="password" class="form-label">Lösenord</label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="d-grid my-3">
+                    <button class="btn btn-primary btn-lg" type="submit">
+                      Registrera
+                    </button>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <p class="m-0 text-secondary text-center">
+                    Har du redan ett konto?
+                    <a
+                      href="#!"
+                      class="link-primary text-decoration-none"
+                      [routerLink]="'/login'"
+                    >
+                      Logga in
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
