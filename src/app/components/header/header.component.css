@@ -51,10 +51,10 @@ header {
 }
 
 .menu ul li:hover {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
   color: rgb(238, 217, 25);
+  cursor: pointer;
   transition: 0.4s ease-in-out;
 }
 

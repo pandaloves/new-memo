@@ -4,7 +4,7 @@
   (ngSubmit)="onSubmit()"
 >
   <div
-    class="border border-light-subtle rounded position-absolute top-4 start-50 translate-middle-x p-6 w-75"
+    class="border border-light-subtle rounded position-absolute top-4 start-50 translate-middle-x p-4 w-75"
   >
     <input
       formControlName="title"
@@ -55,18 +55,15 @@
       Publiceringsår krävs.
     </h5>
 
-    <div class="mt-4 d-flex flex-row gap-4 justify-center">
-      <button
-        type="submit"
-        class="link-primary link-opacity-50-hover text-light text-bg-primary py-2 px-4 rounded"
-      >
+    <div
+      class="my-4 d-flex flex-row gap-4 justify-content-center align-items-center"
+    >
+      <button type="submit" class="btn btn-primary btn-lg" type="submit">
         {{ isEdit ? "Redigera bok" : "Lägg till bok" }}
       </button>
-      <a
-        [routerLink]="'/books'"
-        class="link-danger link-opacity-50-hover text-light text-bg-danger py-2 px-4 rounded"
-        >Avbryt</a
-      >
+      <button [routerLink]="'/books'" class="btn btn-danger btn-lg">
+        Avbryt
+      </button>
     </div>
   </div>
 </form>
