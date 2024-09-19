@@ -6,7 +6,7 @@ import { IUser } from '../interfaces/user';
   providedIn: 'root',
 })
 export class HttpService {
-  apiUrl = 'http://localhost:5280';
+  apiUrl = 'https://crud-dotnet-api20240919182651.azurewebsites.net';
   http = inject(HttpClient);
   constructor() {}
 
