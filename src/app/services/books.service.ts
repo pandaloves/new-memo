@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class BooksService {
-  apiUrl = 'http://localhost:5280/api/Book'; 
+  apiUrl = 'https://crud-dotnet-api20240919182651.azurewebsites.net/api/Book'; 
   constructor(private http: HttpClient) {}
   getBooks = (): Observable<Book[]> => this.http.get<Book[]>(this.apiUrl);
 

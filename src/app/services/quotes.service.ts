@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class QuotesService {
-  apiUrl = 'http://localhost:5280/api/Quote';
+  apiUrl = 'https://crud-dotnet-api20240919182651.azurewebsites.net/api/Quote';
   constructor(private http: HttpClient) {}
   getQuotes = (): Observable<Quote[]> => this.http.get<Quote[]>(this.apiUrl);
 
