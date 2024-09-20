@@ -66,19 +66,27 @@ header {
   .username {
     width: 100px;
   }
+
   .toggle-btn {
     width: 80px;
     margin-left: 1px;
   }
+
   .menu {
     position: absolute;
-    right: -300px;
+    right: 0;
     top: 80px;
     background: #044de0;
     width: 220px;
-    height: 200px;
+    height: auto;
     z-index: 999;
     padding-top: 18px;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+  }
+
+  .mobile_menu {
+    transform: translateX(0);
   }
 
   .menu ul li {
@@ -89,14 +97,13 @@ header {
     border-bottom: 1px solid grey;
   }
 
+  .menu ul li:last-child {
+    border-bottom: none;
+  }
+
   .menu-icon {
     display: block;
     font-size: 26px;
     color: white;
-  }
-
-  .mobile_menu {
-    right: 0;
-    transition: 0.4s ease-in-out;
   }
 }
