@@ -9,7 +9,6 @@ import {
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { QuotesService } from '../../../services/quotes.service';
 import { Subscription } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -30,14 +29,12 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private activatedRouter: ActivatedRoute,
-    private router: Router,
-    private toasterService: ToastrService
+    private router: Router
   ) {}
 
   // Handle the quote form submission
   onSubmit() {
     if (this.form.invalid) {
-      this.toasterService.error('Vänligen fyll i alla obligatoriska fält.');
       return;
     }
 
@@ -45,7 +42,6 @@ export class QuoteFormComponent implements OnInit, OnDestroy {
       .addQuote(this.form.value)
       .subscribe({
         next: () => {
-          this.toasterService.success('Citatet har lagts till!');
           this.router.navigateByUrl('/quotes');
         },
         error: (err) => {

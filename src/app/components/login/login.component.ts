@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpService } from '../../http/http.service';
 import { Router, RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -17,7 +16,6 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   builder = inject(FormBuilder);
   httpService = inject(HttpService);
-  toaster = inject(ToastrService);
   router = inject(Router);
 
   loginForm = this.builder.group({
@@ -34,9 +32,6 @@ export class LoginComponent {
       .login(email, password)
       .pipe(
         catchError((error) => {
-          this.toaster.error(
-            'Inloggningen misslyckades. Kontrollera dina uppgifter och försök igen.'
-          );
           return of(null);
         })
       )
@@ -44,7 +39,6 @@ export class LoginComponent {
         if (result && result.token) {
           localStorage.setItem('token', result.token);
           this.router.navigateByUrl('/books');
-          this.toaster.success('Loggat in framgångsrikt!');
         }
       });
   }

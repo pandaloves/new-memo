@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { ThemeService } from '../../services/ThemeService';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +15,6 @@ export class HeaderComponent implements OnInit {
   menu_icon: string = 'bi bi-list';
   darkMode = false;
   username: string | null = null;
-  toaster = inject(ToastrService);
 
   constructor(private themeService: ThemeService) {}
 

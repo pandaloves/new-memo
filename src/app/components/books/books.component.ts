@@ -4,7 +4,6 @@ import { BooksService } from '../../services/books.service';
 import { Book } from '../../types/book';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,7 +15,6 @@ import { CommonModule } from '@angular/common';
 })
 export class BooksComponent implements OnInit {
   books$!: Observable<Book[]>;
-  toaster = inject(ToastrService);
   bookService = inject(BooksService);
 
   ngOnInit(): void {
@@ -31,7 +29,6 @@ export class BooksComponent implements OnInit {
   delete(id: number) {
     this.bookService.deleteBook(id).subscribe({
       next: () => {
-        this.toaster.error('Boken har raderats!');
         this.getBooks();
       },
     });

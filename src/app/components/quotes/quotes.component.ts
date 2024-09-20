@@ -4,7 +4,6 @@ import { QuotesService } from '../../services/quotes.service';
 import { Quote } from '../../types/quote';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,7 +15,6 @@ import { CommonModule } from '@angular/common';
 })
 export class QuotesComponent implements OnInit {
   quotes$!: Observable<Quote[]>;
-  toaster = inject(ToastrService);
 
   quoteService = inject(QuotesService);
 
@@ -33,7 +31,6 @@ export class QuotesComponent implements OnInit {
   delete(id: number) {
     this.quoteService.deleteQuote(id).subscribe({
       next: () => {
-        this.toaster.error('Citatet har raderats!');
         this.getQuotes();
       },
     });
