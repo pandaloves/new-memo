@@ -57,11 +57,7 @@ export class HeaderComponent implements OnInit {
   // Log out the user
   logOut() {
     localStorage.removeItem('token');
-    this.toaster.error('Loggat ut framgångsrikt!');
-
-    setTimeout(() => {
-      window.location.href = '/login';
-    }, 2000);
+    window.location.href = '/login';
   }
 
   // Toggle the theme
