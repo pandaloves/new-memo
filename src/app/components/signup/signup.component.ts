@@ -10,7 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpService } from '../../http/http.service';
 import { IUser } from '../../interfaces/user';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { RouterLink } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -35,7 +34,6 @@ export class SignupComponent {
   formBuilder = inject(FormBuilder);
   httpService = inject(HttpService);
   router = inject(Router);
-  toaster = inject(ToastrService);
 
   signupForm = this.formBuilder.group({
     username: ['', [Validators.required]],
@@ -62,17 +60,13 @@ export class SignupComponent {
       .createUser(user)
       .pipe(
         catchError((error) => {
-          console.error('Signup error', error);
-
           if (
             error.status === 400 &&
             error.error.error === 'Email has already existed!'
           ) {
-            this.toaster.error(
-              'E-postadressen finns redan. Försök med en annan.'
-            );
+            alert('E-postadressen finns redan. Försök med en annan.');
           } else {
-            this.toaster.error('Registreringen misslyckades. Försök igen.');
+            alert('Registreringen misslyckades. Försök igen.');
           }
 
           return of(null);
@@ -80,7 +74,6 @@ export class SignupComponent {
       )
       .subscribe((result) => {
         if (result) {
-          this.toaster.success('Registreringen lyckades.');
           this.router.navigateByUrl('/login');
         }
       });

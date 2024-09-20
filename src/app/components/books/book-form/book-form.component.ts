@@ -8,7 +8,6 @@ import {
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { BooksService } from '../../../services/books.service';
 import { Subscription } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -23,7 +22,6 @@ export class BookFormComponent implements OnInit, OnDestroy {
   bookformSubscription!: Subscription;
   paramsSubscription!: Subscription;
   bookService = inject(BooksService);
-  toasterService = inject(ToastrService);
 
   isEdit = false;
   id = 0;
@@ -49,9 +47,8 @@ export class BookFormComponent implements OnInit, OnDestroy {
           this.isEdit = true;
           this.bookService.getBook(this.id).subscribe({
             next: (response) => {
-              this.originalBookValues = { ...response }; // Store original values
+              this.originalBookValues = { ...response }; 
               this.form.patchValue(response);
-              // Mark form as pristine when data is loaded
               this.form.markAsPristine();
             },
             error: (err) => {
@@ -68,20 +65,18 @@ export class BookFormComponent implements OnInit, OnDestroy {
 
   // Check if form values have changed using ngDirty
   hasChanges(): boolean {
-    return !this.form.pristine; // Form is not pristine means it has been modified
+    return !this.form.pristine; 
   }
 
   // Submit a book
   onSubmit() {
     // Check for invalid form
     if (this.form.invalid) {
-      this.toasterService.error('Vänligen fyll i alla obligatoriska fält.');
       return;
     }
 
     // Check if in edit mode and no changes have been made
     if (this.isEdit && !this.hasChanges()) {
-      this.toasterService.info('Ingen förändring att spara.');
       return;
     }
 
@@ -91,7 +86,6 @@ export class BookFormComponent implements OnInit, OnDestroy {
         .addBook(this.form.value)
         .subscribe({
           next: () => {
-            this.toasterService.success('Boken har lagts till!');
             this.router.navigateByUrl('/books');
           },
           error: (err) => {
@@ -103,7 +97,6 @@ export class BookFormComponent implements OnInit, OnDestroy {
         .editBook(this.id, this.form.value)
         .subscribe({
           next: () => {
-            this.toasterService.success('Boken har redigerats!');
             this.router.navigateByUrl('/books');
           },
           error: (err) => {
