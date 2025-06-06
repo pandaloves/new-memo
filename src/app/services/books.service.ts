@@ -1,23 +1,57 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Book } from '../types/book';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { books as initialBooks } from '../utils/mock'; // adjust path as needed
+
+const LOCAL_STORAGE_KEY = 'booksData';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BooksService {
-  apiUrl = 'https://crud-dotnet-api20240919182651.azurewebsites.net/api/Book'; 
-  constructor(private http: HttpClient) {}
-  getBooks = (): Observable<Book[]> => this.http.get<Book[]>(this.apiUrl);
+  private get books(): Book[] {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [...initialBooks];
+  }
 
-  addBook = (data: Book) => this.http.post(this.apiUrl, data);
+  private set books(newBooks: Book[]) {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newBooks));
+  }
 
-  getBook = (id: number): Observable<Book> =>
-    this.http.get<Book>(this.apiUrl + '/' + id);
+  getBooks(): Observable<Book[]> {
+    return of(this.books);
+  }
 
-  deleteBook = (id: number) => this.http.delete(this.apiUrl + '/' + id);
+  getBook(id: number): Observable<Book | undefined> {
+    const book = this.books.find(b => b.id === id);
+    return of(book);
+  }
 
-  editBook = (id: number, data: Book) =>
-    this.http.put(this.apiUrl + '/' + id, data);
+  addBook(data: Book): Observable<Book> {
+    const books = this.books;
+    const newBook: Book = {
+      ...data,
+      id: books.length > 0 ? Math.max(...books.map(b => b.id)) + 1 : 1,
+    };
+    books.push(newBook);
+    this.books = books;
+    return of(newBook);
+  }
+
+  editBook(id: number, updatedData: Book): Observable<Book | undefined> {
+    const books = this.books;
+    const index = books.findIndex(b => b.id === id);
+    if (index > -1) {
+      books[index] = { ...updatedData, id };
+      this.books = books;
+      return of(books[index]);
+    }
+    return of(undefined);
+  }
+
+  deleteBook(id: number): Observable<void> {
+    const books = this.books.filter(b => b.id !== id);
+    this.books = books;
+    return of(void 0);
+  }
 }

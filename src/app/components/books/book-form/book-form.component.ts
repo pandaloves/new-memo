@@ -19,19 +19,16 @@ import { CommonModule } from '@angular/common';
 })
 export class BookFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
-  bookformSubscription!: Subscription;
-  paramsSubscription!: Subscription;
-  bookService = inject(BooksService);
+  private bookformSubscription?: Subscription;
+  private paramsSubscription?: Subscription;
+
+  private bookService = inject(BooksService);
+  private fb = inject(FormBuilder);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   isEdit = false;
   id = 0;
-  originalBookValues: any = {};
-
-  constructor(
-    private fb: FormBuilder,
-    private activatedRouter: ActivatedRoute,
-    private router: Router
-  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -40,78 +37,49 @@ export class BookFormComponent implements OnInit, OnDestroy {
       publishYear: ['', Validators.required],
     });
 
-    this.paramsSubscription = this.activatedRouter.params.subscribe({
+    this.paramsSubscription = this.activatedRoute.params.subscribe({
       next: (params) => {
-        this.id = params['id'];
+        this.id = +params['id']; // Ensure it's a number
         if (this.id) {
           this.isEdit = true;
           this.bookService.getBook(this.id).subscribe({
-            next: (response) => {
-              this.originalBookValues = { ...response }; 
-              this.form.patchValue(response);
-              this.form.markAsPristine();
+            next: (book) => {
+              if (book) {
+                this.form.patchValue(book);
+                this.form.markAsPristine();
+              } else {
+                console.warn('Book not found');
+              }
             },
-            error: (err) => {
-              console.log(err);
-            },
+            error: (err) => console.error(err),
           });
         }
       },
-      error: (err) => {
-        console.log(err);
-      },
+      error: (err) => console.error(err),
     });
   }
 
-  // Check if form values have changed using ngDirty
   hasChanges(): boolean {
-    return !this.form.pristine; 
+    return !this.form.pristine;
   }
 
-  // Submit a book
-  onSubmit() {
-    // Check for invalid form
-    if (this.form.invalid) {
-      return;
-    }
+  onSubmit(): void {
+    if (this.form.invalid || (this.isEdit && !this.hasChanges())) return;
 
-    // Check if in edit mode and no changes have been made
-    if (this.isEdit && !this.hasChanges()) {
-      return;
-    }
+    const bookData = this.form.value;
 
-    // Submit the form based on whether it is a new book or an edit
-    if (!this.isEdit) {
-      this.bookformSubscription = this.bookService
-        .addBook(this.form.value)
-        .subscribe({
-          next: () => {
-            this.router.navigateByUrl('/books');
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-    } else {
-      this.bookformSubscription = this.bookService
-        .editBook(this.id, this.form.value)
-        .subscribe({
-          next: () => {
-            this.router.navigateByUrl('/books');
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-    }
+    const action$ = this.isEdit
+      ? this.bookService.editBook(this.id, bookData)
+      : this.bookService.addBook(bookData);
+
+    this.bookformSubscription = action$.subscribe({
+      next: () => this.router.navigateByUrl('/books'),
+      error: (err) => console.error(err),
+    });
   }
 
   ngOnDestroy(): void {
-    if (this.bookformSubscription) {
-      this.bookformSubscription.unsubscribe();
-    }
-    if (this.paramsSubscription) {
-      this.paramsSubscription.unsubscribe();
-    }
+    this.bookformSubscription?.unsubscribe();
+    this.paramsSubscription?.unsubscribe();
   }
 }

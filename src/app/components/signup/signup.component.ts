@@ -7,12 +7,9 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { HttpService } from '../../http/http.service';
 import { IUser } from '../../interfaces/user';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { StrongPasswordRegx } from '../../utils/StrongPasswordRegx';
 
@@ -32,7 +29,6 @@ import { StrongPasswordRegx } from '../../utils/StrongPasswordRegx';
 })
 export class SignupComponent {
   formBuilder = inject(FormBuilder);
-  httpService = inject(HttpService);
   router = inject(Router);
 
   signupForm = this.formBuilder.group({
@@ -55,27 +51,6 @@ export class SignupComponent {
       email: this.signupForm.value.email!,
       password: this.signupForm.value.password!,
     };
-
-    this.httpService
-      .createUser(user)
-      .pipe(
-        catchError((error) => {
-          if (
-            error.status === 400 &&
-            error.error.error === 'Email has already existed!'
-          ) {
-            alert('E-postadressen finns redan. Försök med en annan.');
-          } else {
-            alert('Registreringen misslyckades. Försök igen.');
-          }
-
-          return of(null);
-        })
-      )
-      .subscribe((result) => {
-        if (result) {
-          this.router.navigateByUrl('/login');
-        }
-      });
+      this.router.navigateByUrl('/login');
   }
 }
