@@ -23,7 +23,6 @@ export class LoginComponent {
  onLogin() {
   const email = this.loginForm.value.email;
   localStorage.setItem('email', email ?? '');
-  console.log('email', email);
   this.router.navigateByUrl('/books');
 }
 }
